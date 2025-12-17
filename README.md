@@ -372,7 +372,7 @@ Potential features for future versions or additional related family of packages:
 **Version**: 0.3.0
 **License**: MIT
 
-Developed with AI coding assistance: Claude Sonnet 4.5 and Claude Opus 4.5 (Anthropic) for core structure and logic; Gemini 3.0 (Google) for debugging and optimization.
+Developed with AI coding assistance: Claude Sonnet 4.5 and Claude Opus 4.5 (Anthropic) for core structure and logic; Gemini 3.0 (Google) for debugging and verification.
 
 ## References
 
