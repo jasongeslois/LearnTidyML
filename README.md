@@ -59,7 +59,7 @@ devtools::install_local("path/to/LearnTidyML")
 ```r
 library(LearnTidyML)
 
-# Launch the app
+# Launch the app (opens in browser)
 launch_LearnTidyML()
 
 # Launch in RStudio viewer
@@ -76,7 +76,7 @@ launch_LearnTidyML(launch.browser = FALSE)
 - R data (.rds, .RData)
 - Statistical formats (.sas7bdat, .xpt, .dta, .sav)
 
-**File size limit:** 50 MB
+**Approximate file size limit:** 50 MB
 
 ### Step 2: Data Profile
 
@@ -94,7 +94,7 @@ Automatic analysis includes:
 - Multi-class Classification
 - Regression
 - Clustering
-- Time Series (future support)
+- Time Series (potential future support)
 
 **Recommendations include:**
 - Suitable algorithms for your task
@@ -356,7 +356,7 @@ launch_LearnTidyML()
 
 ## Future Enhancements
 
-Potential features for future versions:
+Potential features for future versions or additional related family of packages:
 - Deep learning support (neural networks)
 - Advanced hyperparameter tuning (Bayesian optimization)
 - Feature selection algorithms
@@ -372,7 +372,7 @@ Potential features for future versions:
 **Version**: 0.3.0
 **License**: MIT
 
-Built with assistance from Anthropic's Claude AI Sonnet 4.5
+Developed with AI coding assistance: Claude Sonnet 4.5 and Claude Opus 4.5 (Anthropic) for core structure and logic; Gemini 3.0 (Google) for debugging and optimization.
 
 ## References
 
