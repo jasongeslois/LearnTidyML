@@ -1,4 +1,4 @@
-<img src="man/figures/logo.png" align="bottom" height="400" alt="LearnTidyML logo" />
+<img src="man/figures/logo.png" align="middle" height="400" alt="LearnTidyML logo" />
 
 # LearnTidyML 
 
