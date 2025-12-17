@@ -1,0 +1,50 @@
+Package: LearnTidyML
+Title: Machine Learning Method Assistant
+Version: 0.3.0
+Authors@R: person("Jason", "Geslois", email = "jason592470@duck.com", role = c("aut", "cre"))
+Description: Interactive Shiny app to help users select appropriate ML methods
+    based on their data characteristics. Provides data profiling, method recommendations,
+    data cleaning, model training with comparison, and plain-English result explanations
+    designed for educational use.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    shiny,
+    shinydashboard,
+    shinyjs,
+    dplyr,
+    tidyr,
+    purrr,
+    readr,
+    readxl,
+    haven,
+    ggplot2,
+    tidymodels,
+    parsnip,
+    recipes,
+    workflows,
+    tune,
+    yardstick,
+    rsample,
+    DT,
+    glue,
+    tibble,
+    magrittr,
+    rlang,
+    markdown,
+    knitr,
+    digest
+RoxygenNote: 7.3.3
+Suggests:
+    testthat (>= 3.0.0),
+    glmnet,
+    ranger,
+    xgboost,
+    kernlab,
+    kknn,
+    naivebayes,
+    rpart,
+    rpart.plot,
+    vip
+Config/testthat/edition: 3
