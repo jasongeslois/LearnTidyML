@@ -366,14 +366,6 @@ Potential features for future versions or additional related family of packages:
 - Time series forecasting
 - Anomaly detection
 
-## Credits
-
-**Created By**: Jason Geslois
-**Version**: 0.3.0
-**License**: MIT
-
-Developed with AI coding assistance: Claude Sonnet 4.5 and Claude Opus 4.5 (Anthropic) for core structure and logic; Gemini 3.0 (Google) for debugging and verification.
-
 ## References
 
 ### Machine Learning
@@ -384,6 +376,20 @@ Developed with AI coding assistance: Claude Sonnet 4.5 and Claude Opus 4.5 (Anth
 - **tidymodels**: Modern ML framework for R
 - **parsnip**: Unified ML interface
 - **recipes**: Feature engineering framework
+
+### Development Environment
+R version 4.4.3 by The R Foundation: "https://www.r-project.org/"
+Positron 2025.11.0 by Posit: "https://positron.posit.co/" 
+
+Developed with AI coding assistance: 
+Claude Sonnet 4.5 and Claude Opus 4.5 (Anthropic) for core structure and logic. https://claude.ai/code
+Gemini 3.0 (Google) for debugging and verification. https://gemini.google.com/app
+
+## Credits
+
+**Created By**: Jason Geslois
+**Version**: 0.3.0
+**License**: MIT
 
 ## Contributing
 
