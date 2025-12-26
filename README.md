@@ -404,6 +404,19 @@ MIT License - See LICENSE file for details
 
 ---
 
+## Citation
+
+If you use hipaaScanR in your research, please cite:
+
+```bibtex
+@software{hipaascanr2025,
+  author = {Geslois, Jason},
+  title = {hipaaScanR: Detect HIPAA/PII Exposure in R Datasets},
+  year = {2025},
+  url = {https://github.com/jasongeslois/hipaaScanR}
+}
+```
+
 **Disclaimer**: LearnTidyML is designed for educational purposes. For production ML systems, consult with data science professionals and follow rigorous validation procedures.
 
 **Built with R, Shiny, and tidymodels**
