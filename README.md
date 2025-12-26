@@ -1,6 +1,5 @@
-<img src="man/figures/logo.png" align="middle" height="400" alt="LearnTidyML logo" />
+# LearnTidyML <img src="man/figures/logo.png" align="right" height="138" alt="LearnTidyML logo" />
 
-# LearnTidyML 
 
 **Machine Learning Method Assistant**
 
