@@ -406,14 +406,14 @@ MIT License - See LICENSE file for details
 
 ## Citation
 
-If you use hipaaScanR in your research, please cite:
+If you use LearnTidyML in your research, please cite:
 
 ```bibtex
-@software{hipaascanr2025,
+@software{learntidyml2025,
   author = {Geslois, Jason},
-  title = {hipaaScanR: Detect HIPAA/PII Exposure in R Datasets},
+  title = {LearnTidyML:Assistant to learning machine learning methods},
   year = {2025},
-  url = {https://github.com/jasongeslois/hipaaScanR}
+  url = {https://github.com/jasongeslois/LearnTidyML}
 }
 ```
 
