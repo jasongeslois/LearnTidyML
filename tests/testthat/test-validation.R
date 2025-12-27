@@ -387,7 +387,7 @@ test_that("validation accepts valid multi-column data", {
 test_that("safe_error_message sanitizes error messages", {
   # Create error with potentially sensitive info
   err <- tryCatch(
-    stop("Database connection failed: password='secret123' at line 42"),
+    stop("Database connection failed: credential='testvalue_xyz' at line 42"),
     error = function(e) e
   )
 
@@ -395,8 +395,8 @@ test_that("safe_error_message sanitizes error messages", {
   safe_msg <- safe_error_message(err, "Operation failed")
 
   expect_equal(safe_msg, "Operation failed")
-  expect_false(grepl("password", safe_msg))
-  expect_false(grepl("secret123", safe_msg))
+  expect_false(grepl("credential", safe_msg))
+  expect_false(grepl("testvalue_xyz", safe_msg))
 })
 
 test_that("safe_error_message uses default message", {
