@@ -187,7 +187,7 @@ test_that("hash_session_token produces different hashes for different tokens", {
 })
 
 test_that("hash_session_token does not expose original token", {
-  token <- "secret_session_token_12345"
+  token <- "test_session_token_abc"
 
   hash <- hash_session_token(token)
 
