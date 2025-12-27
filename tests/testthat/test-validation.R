@@ -26,8 +26,8 @@ test_that("validate_imported_file rejects oversized files", {
   temp_file <- tempfile(fileext = ".csv")
   on.exit(unlink(temp_file), add = TRUE)
 
-  # Write ~2KB of data
-  large_data <- paste(rep("a,b,c,d,e\n", 100), collapse = "")
+  # Write ~5KB of data to ensure it exceeds 0.001 MB (1024 bytes) on all platforms
+  large_data <- paste(rep("a,b,c,d,e,f,g,h,i,j\n", 500), collapse = "")
   writeLines(large_data, temp_file)
 
   file_info <- list(
@@ -35,7 +35,7 @@ test_that("validate_imported_file rejects oversized files", {
     datapath = temp_file
   )
 
-  # Set very small limit to trigger error
+  # Set very small limit to trigger error (0.001 MB = ~1KB)
   expect_error(
     validate_imported_file(file_info, max_size_mb = 0.001),
     "File size exceeds"
