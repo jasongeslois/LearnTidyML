@@ -92,7 +92,7 @@ testthat::test_file("tests/testthat/test-your-feature.R")
 
 If you have questions about contributing, feel free to:
 - Open an issue with your question
-- Contact the maintainer at jasongeslois@outlook.com
+- Contact the maintainer at jason592470@duck.com
 
 ## Code of Conduct
 
