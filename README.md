@@ -1,5 +1,10 @@
 # LearnTidyML <img src="man/figures/logo.png" align="right" height="138" alt="LearnTidyML logo" />
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/jasongeslois/LearnTidyML/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jasongeslois/LearnTidyML/actions/workflows/R-CMD-check.yaml)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<!-- badges: end -->
 
 **Machine Learning Method Assistant**
 
