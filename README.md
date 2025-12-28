@@ -12,7 +12,7 @@ An interactive R package with Shiny interface that helps users select appropriat
 
 ## Overview
 
-LearnTidyML takes the guesswork out of choosing machine learning methods. import your data, and LearnTidyML will:
+LearnTidyML helps guide your choice of machine learning methods. import your data, and LearnTidyML will:
 
 1. **Profile your data** - Understand structure, types, and quality
 2. **Detect the ML task** - Classification, regression, clustering, etc.
@@ -26,7 +26,7 @@ Perfect for students, researchers, and practitioners learning machine learning w
 ## Features
 
 - **Automated Data Profiling** - Comprehensive data quality assessment
-- **Intelligent Task Detection** - Automatically identifies ML problem type
+- **Automatic Task Detection** - Automatically identifies ML problem type
 - **Method Recommendations** - Suggests algorithms with clear explanations
 - **Guided Data Cleaning** - Interactive data preparation workflow
 - **Model Training & Comparison** - Train multiple models simultaneously
@@ -276,7 +276,7 @@ LearnTidyML analyzes your data to determine:
 - **Problem structure** - Supervised vs. unsupervised
 - **Data characteristics** - Size, complexity, class balance
 
-### Method Recommendation Engine
+### Method Recommendations
 
 Recommendations consider:
 - Task type (classification, regression)
