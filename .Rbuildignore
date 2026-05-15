@@ -4,3 +4,4 @@
 ^run_tests\.R$
 ^\.gitignore$
 ^\.claude$
+^_dev$
