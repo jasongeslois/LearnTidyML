@@ -21,10 +21,15 @@ NULL
 #' @param recipe A recipes::recipe object for preprocessing
 #' @param cv_folds Number of cross-validation folds (default: 5)
 #' @param tune_grid Number of hyperparameter combinations to try (default: 10)
+#' @param balance_strategy Class rebalancing strategy for classification tasks:
+#'   "none" (default), "oversample", or "undersample". Only used when `recipe`
+#'   is NULL (i.e. when the default recipe is built). Applied inside the recipe
+#'   so it never touches the assessment/test data.
 #' @return A list containing model, metrics, predictions, and importance
 #' @export
 train_model <- function(data, target_col, method_engine, task_type,
-                        recipe = NULL, cv_folds = 5, tune_grid = 10) {
+                        recipe = NULL, cv_folds = 5, tune_grid = 10,
+                        balance_strategy = "none") {
 
  # Validate inputs
  if (!target_col %in% names(data)) {
@@ -75,7 +80,7 @@ train_model <- function(data, target_col, method_engine, task_type,
 
  # Create recipe if not provided
  if (is.null(recipe)) {
-   recipe <- create_default_recipe(train_data, target_col, task_type)
+   recipe <- create_default_recipe(train_data, target_col, task_type, balance_strategy)
  }
 
  # Create model specification
@@ -112,6 +117,25 @@ train_model <- function(data, target_col, method_engine, task_type,
  warnings_list <- character()
 
  if (needs_tuning) {
+   # Finalize data-dependent tuning parameters (e.g. mtry for Random Forest),
+   # whose upper bound depends on the number of predictors AFTER preprocessing.
+   # Without this, tune_grid() errors on the unknown range and the model
+   # silently falls back to default (untuned) hyperparameters.
+   tune_params <- tryCatch({
+     pset <- tune::extract_parameter_set_dials(wf)
+     if (requireNamespace("dials", quietly = TRUE) &&
+         any(dials::has_unknowns(pset$object))) {
+       prepped <- recipes::prep(recipe, training = train_data)
+       processed <- recipes::bake(prepped, new_data = NULL,
+                                  recipes::all_predictors())
+       pset <- dials::finalize(pset, processed)
+     }
+     pset
+   }, error = function(e) {
+     message("Could not finalize tuning parameters: ", e$message)
+     NULL
+   })
+
    # Tune the model with better error handling
    tune_results <- tryCatch({
      withCallingHandlers({
@@ -119,6 +143,7 @@ train_model <- function(data, target_col, method_engine, task_type,
          wf,
          resamples = cv_folds_obj,
          grid = tune_grid,
+         param_info = tune_params,
          control = tune::control_grid(
            verbose = FALSE,
            save_pred = TRUE,
@@ -268,9 +293,13 @@ train_model <- function(data, target_col, method_engine, task_type,
 #' @param data Training data
 #' @param target_col Target column name
 #' @param task_type Task type
+#' @param balance_strategy Class rebalancing strategy for classification tasks:
+#'   "none" (default), "oversample", or "undersample". Applied via themis steps
+#'   with skip = TRUE so resampling affects only the analysis/training data and
+#'   never the assessment/test data.
 #' @return A recipe object
 #' @keywords internal
-create_default_recipe <- function(data, target_col, task_type) {
+create_default_recipe <- function(data, target_col, task_type, balance_strategy = "none") {
 
  # Create formula
  formula_obj <- stats::reformulate(".", response = target_col)
@@ -292,6 +321,30 @@ create_default_recipe <- function(data, target_col, task_type) {
    recipes::step_normalize(recipes::all_numeric_predictors()) %>%
    # Remove highly correlated predictors
    recipes::step_corr(recipes::all_numeric_predictors(), threshold = 0.9)
+
+ # Optional class rebalancing (classification only).
+ # IMPORTANT: this is done as a recipe step rather than on the full dataset
+ # before splitting. themis steps default to skip = TRUE, so the resampling is
+ # applied ONLY to the analysis data during cross-validation and to the training
+ # data for the final fit - never to the assessment/test set. Resampling before
+ # the train/test split would leak duplicated rows across the split and produce
+ # optimistic, invalid performance estimates.
+ if (task_type == "classification" && balance_strategy %in% c("oversample", "undersample")) {
+   if (requireNamespace("themis", quietly = TRUE)) {
+     target_sym <- rlang::sym(target_col)
+     if (balance_strategy == "oversample") {
+       rec <- rec %>%
+         themis::step_upsample(!!target_sym, over_ratio = 1, skip = TRUE)
+     } else {
+       rec <- rec %>%
+         themis::step_downsample(!!target_sym, under_ratio = 1, skip = TRUE)
+     }
+   } else {
+     warning("Package 'themis' is required for class rebalancing but is not ",
+             "installed. Proceeding without rebalancing. Install it with: ",
+             "install.packages('themis')")
+   }
+ }
 
  rec
 }
@@ -434,7 +487,12 @@ calculate_test_metrics <- function(predictions, target_col, task_type) {
        .estimator = "standard",
        .estimate = c(
          yardstick::rmse_vec(predictions[[truth_col]], predictions$.pred),
-         yardstick::rsq_vec(predictions[[truth_col]], predictions$.pred),
+         # Use the TRADITIONAL R-squared (1 - SS_res/SS_tot), not the
+         # correlation-based rsq_vec(). rsq_trad matches how R-squared is
+         # described to users ("proportion of variance explained"), correctly
+         # yields 0 when predicting the mean, and can go negative when a model
+         # performs worse than the mean baseline on the test set.
+         yardstick::rsq_trad_vec(predictions[[truth_col]], predictions$.pred),
          yardstick::mae_vec(predictions[[truth_col]], predictions$.pred)
        )
      )
@@ -488,8 +546,13 @@ calculate_test_metrics <- function(predictions, target_col, task_type) {
      if (length(prob_cols) >= 1) {
        auc <- tryCatch({
          if (length(prob_cols) == 2) {
-           # Binary classification: use the second class probability
-           yardstick::roc_auc_vec(predictions[[truth_col]], predictions[[prob_cols[2]]])
+           # Binary classification: yardstick defaults to event_level = "first",
+           # i.e. it expects the probability of the FIRST factor level - the same
+           # level treated as the "event" by accuracy/precision/recall above.
+           # The probability columns are ordered by factor level, so prob_cols[1]
+           # is P(first level). Using prob_cols[2] here previously inverted the
+           # AUC (reporting 1 - AUC) and was inconsistent with the other metrics.
+           yardstick::roc_auc_vec(predictions[[truth_col]], predictions[[prob_cols[1]]])
          } else if (length(prob_cols) > 2) {
            # Multiclass classification: use Hand-Till method for multiclass AUC
            # Create a matrix of probability columns for roc_auc calculation
@@ -604,6 +667,9 @@ extract_importance <- function(fitted_model, engine) {
 #' @param cv_folds Number of CV folds
 #' @param tune_grid Tuning grid size
 #' @param progress_callback Function to call with progress updates
+#' @param balance_strategy Class rebalancing strategy passed to each model's
+#'   recipe for classification tasks: "none" (default), "oversample", or
+#'   "undersample".
 #' @return A list with comparison results
 #' @export
 compare_models <- function(data, target_col, task_type,
@@ -611,7 +677,8 @@ compare_models <- function(data, target_col, task_type,
                           recipe = NULL,
                           cv_folds = 5,
                           tune_grid = 5,
-                          progress_callback = NULL) {
+                          progress_callback = NULL,
+                          balance_strategy = "none") {
 
  results <- list()
  n_engines <- length(engines)
@@ -633,7 +700,8 @@ compare_models <- function(data, target_col, task_type,
        task_type = task_type,
        recipe = recipe,
        cv_folds = cv_folds,
-       tune_grid = tune_grid
+       tune_grid = tune_grid,
+       balance_strategy = balance_strategy
      )
    }, error = function(e) {
      message("Failed to train ", eng, ": ", e$message)
@@ -656,19 +724,45 @@ compare_models <- function(data, target_col, task_type,
      values_from = .estimate
    )
 
- # Sort comparison by performance (best first)
- if (task_type == "regression" && "rsq" %in% names(comparison)) {
-   comparison <- comparison %>%
-     dplyr::arrange(dplyr::desc(rsq))
-   best_model <- comparison$model[1]
- } else if (task_type == "classification" && "accuracy" %in% names(comparison)) {
-   comparison <- comparison %>%
-     dplyr::arrange(dplyr::desc(accuracy))
-   best_model <- comparison$model[1]
- } else {
-   # Fallback if metrics are missing
-   best_model <- comparison$model[1]
+ # Select the best model using CROSS-VALIDATION performance, not the test set.
+ # Picking the winner by its test-set score and then reporting that same score
+ # is optimistically biased (selection on the test set). CV-based selection
+ # avoids this. For classification we prefer ROC-AUC over accuracy, since
+ # accuracy is misleading under class imbalance.
+ cv_score <- function(r) {
+   cvm <- r$cv_metrics
+   if (is.null(cvm) || !"mean" %in% names(cvm)) return(NA_real_)
+   if (task_type == "regression") {
+     v <- cvm$mean[cvm$.metric == "rmse"]
+   } else {
+     v <- cvm$mean[cvm$.metric == "roc_auc"]
+     if (length(v) == 0) v <- cvm$mean[cvm$.metric == "accuracy"]
+   }
+   if (length(v) == 0) NA_real_ else v[1]
  }
+ cv_scores <- vapply(results, cv_score, numeric(1))
+
+ if (all(is.na(cv_scores))) {
+   # Fallback: no CV scores available, rank by test metric (best first)
+   if (task_type == "regression" && "rsq" %in% names(comparison)) {
+     comparison <- comparison %>% dplyr::arrange(dplyr::desc(rsq))
+   } else if (task_type == "classification" && "accuracy" %in% names(comparison)) {
+     comparison <- comparison %>% dplyr::arrange(dplyr::desc(accuracy))
+   }
+ } else {
+   # Order by CV score: ascending RMSE (regression) or descending
+   # ROC-AUC/accuracy (classification). NA scores sort last.
+   comparison <- comparison %>%
+     dplyr::mutate(.cv_score = cv_scores[model])
+   comparison <- if (task_type == "regression") {
+     comparison %>% dplyr::arrange(.cv_score)
+   } else {
+     comparison %>% dplyr::arrange(dplyr::desc(.cv_score))
+   }
+   comparison <- comparison %>% dplyr::select(-.cv_score)
+ }
+
+ best_model <- comparison$model[1]
 
  list(
    models = results,

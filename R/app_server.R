@@ -410,57 +410,15 @@ app_server <- function(input, output, session) {
        }
      }
      
-     incProgress(0.2, detail = "Handling class imbalance...")
-
-     # Apply class balancing if classification task and requested
-     if (rv$task_info$task_type == "classification" && input$balance_strategy != "none") {
-       target_col <- input$target_col
-       class_counts <- table(cleaned[[target_col]])
-
-       if (input$balance_strategy == "oversample") {
-         # Oversample minority classes to match largest class
-         max_count <- max(class_counts)
-         balanced_data <- list()
-
-         for (class_name in names(class_counts)) {
-           class_data <- cleaned[cleaned[[target_col]] == class_name, ]
-           current_count <- nrow(class_data)
-
-           if (current_count < max_count) {
-             # Oversample by sampling with replacement
-             extra_rows <- sample(1:current_count, max_count - current_count, replace = TRUE)
-             class_data <- rbind(class_data, class_data[extra_rows, ])
-           }
-
-           balanced_data[[class_name]] <- class_data
-         }
-
-         cleaned <- do.call(rbind, balanced_data)
-
-       } else if (input$balance_strategy == "undersample") {
-         # Undersample majority classes to match smallest class
-         min_count <- min(class_counts)
-         balanced_data <- list()
-
-         for (class_name in names(class_counts)) {
-           class_data <- cleaned[cleaned[[target_col]] == class_name, ]
-
-           if (nrow(class_data) > min_count) {
-             # Randomly sample to match minority class size
-             class_data <- class_data[sample(1:nrow(class_data), min_count), ]
-           }
-
-           balanced_data[[class_name]] <- class_data
-         }
-
-         cleaned <- do.call(rbind, balanced_data)
-       }
-
-       # Shuffle the balanced data
-       cleaned <- cleaned[sample(1:nrow(cleaned)), ]
-     }
-
      incProgress(0.2, detail = "Finalizing...")
+
+     # NOTE: Class rebalancing (over/under-sampling) is intentionally NOT applied
+     # here. Resampling before the train/test split leaks duplicated rows across
+     # the split (the same row can land in both train and test), producing
+     # optimistic and invalid performance estimates. Instead, the selected
+     # `balance_strategy` is passed through to model training, where it is applied
+     # inside the modeling recipe (themis steps with skip = TRUE) so it affects
+     # only the analysis folds and never the assessment/test data.
 
      # Validate cleaned data before saving
      if (!input$target_col %in% names(cleaned)) {
@@ -642,7 +600,16 @@ app_server <- function(input, output, session) {
    
    train_data <- if (!is.null(rv$cleaned_data)) rv$cleaned_data else rv$data
    rv$training_log <- character()
-   
+
+   # Class rebalancing is applied inside the modeling recipe (never before the
+   # train/test split). Only meaningful for classification.
+   balance_strategy <- if (!is.null(rv$task_info) &&
+                           identical(rv$task_info$task_type, "classification")) {
+     if (is.null(input$balance_strategy)) "none" else input$balance_strategy
+   } else {
+     "none"
+   }
+
    if (length(selected_engines) == 1) {
      # Single model training
      rv$is_comparison_mode <- FALSE
@@ -661,7 +628,8 @@ app_server <- function(input, output, session) {
            method_engine = selected_engines[1],
            task_type = rv$task_info$task_type,
            cv_folds = input$cv_folds,
-           tune_grid = input$tune_grid
+           tune_grid = input$tune_grid,
+           balance_strategy = balance_strategy
          )
          
          incProgress(0.6, detail = "Generating explanations...")
@@ -701,6 +669,7 @@ app_server <- function(input, output, session) {
            engines = selected_engines,
            cv_folds = input$cv_folds,
            tune_grid = input$tune_grid,
+           balance_strategy = balance_strategy,
            progress_callback = function(pct, msg) {
              incProgress(pct / length(selected_engines), detail = msg)
              rv$training_log <- c(rv$training_log, paste(Sys.time(), "-", msg))
@@ -742,7 +711,16 @@ app_server <- function(input, output, session) {
    
    all_engines <- rv$methods$tidymodels_engine
    train_data <- if (!is.null(rv$cleaned_data)) rv$cleaned_data else rv$data
-   
+
+   # Class rebalancing is applied inside the modeling recipe (never before the
+   # train/test split). Only meaningful for classification.
+   balance_strategy <- if (!is.null(rv$task_info) &&
+                           identical(rv$task_info$task_type, "classification")) {
+     if (is.null(input$balance_strategy)) "none" else input$balance_strategy
+   } else {
+     "none"
+   }
+
    rv$training_log <- character()
    rv$is_comparison_mode <- TRUE
    
@@ -759,6 +737,7 @@ app_server <- function(input, output, session) {
          engines = all_engines,
          cv_folds = input$cv_folds,
          tune_grid = input$tune_grid,
+         balance_strategy = balance_strategy,
          progress_callback = function(pct, msg) {
            incProgress(pct / length(all_engines), detail = msg)
            rv$training_log <- c(rv$training_log, paste(Sys.time(), "-", msg))

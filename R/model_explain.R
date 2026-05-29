@@ -973,15 +973,21 @@ explain_model_comparison <- function(comparison_results) {
 
  if (task_type == "regression") {
    explanation <- paste0(explanation,
-     "Models were ranked by R-squared (higher = better).\n\n",
+     "Models were ranked by **cross-validation RMSE** (lower = better), so the ",
+     "winner is chosen independently of the test set. The values shown in the ",
+     "rankings below are the test-set metrics.\n\n",
      "**What this means:** ", get_method_display_name(best),
-     " explained the most variance in your target variable.\n\n"
+     " had the lowest cross-validated prediction error.\n\n"
    )
  } else {
    explanation <- paste0(explanation,
-     "Models were ranked by Accuracy (higher = better).\n\n",
+     "Models were ranked by **cross-validation ROC-AUC** where available ",
+     "(otherwise accuracy; higher = better), so the winner is chosen ",
+     "independently of the test set. The values shown in the rankings below are ",
+     "the test-set metrics. ROC-AUC is preferred over accuracy because accuracy ",
+     "can be misleading with imbalanced classes.\n\n",
      "**What this means:** ", get_method_display_name(best),
-     " correctly classified the most observations.\n\n"
+     " had the best cross-validated class separation.\n\n"
    )
  }
 
