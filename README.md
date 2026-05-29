@@ -395,7 +395,7 @@ Gemini 3.0 (Google) for debugging and verification. https://gemini.google.com/ap
 ## Credits
 
 **Created By**: Jason Geslois 
-**Version**: 0.3.0 
+**Version**: 0.3.1 
 **License**: MIT 
 
 ## Contributing

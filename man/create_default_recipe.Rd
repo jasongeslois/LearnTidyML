@@ -4,7 +4,7 @@
 \alias{create_default_recipe}
 \title{Create Default Recipe}
 \usage{
-create_default_recipe(data, target_col, task_type)
+create_default_recipe(data, target_col, task_type, balance_strategy = "none")
 }
 \arguments{
 \item{data}{Training data}
@@ -12,6 +12,11 @@ create_default_recipe(data, target_col, task_type)
 \item{target_col}{Target column name}
 
 \item{task_type}{Task type}
+
+\item{balance_strategy}{Class rebalancing strategy for classification tasks:
+"none" (default), "oversample", or "undersample". Applied via themis steps
+with skip = TRUE so resampling affects only the analysis/training data and
+never the assessment/test data.}
 }
 \value{
 A recipe object

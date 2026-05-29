@@ -12,7 +12,8 @@ compare_models(
   recipe = NULL,
   cv_folds = 5,
   tune_grid = 5,
-  progress_callback = NULL
+  progress_callback = NULL,
+  balance_strategy = "none"
 )
 }
 \arguments{
@@ -31,6 +32,10 @@ compare_models(
 \item{tune_grid}{Tuning grid size}
 
 \item{progress_callback}{Function to call with progress updates}
+
+\item{balance_strategy}{Class rebalancing strategy passed to each model's
+recipe for classification tasks: "none" (default), "oversample", or
+"undersample".}
 }
 \value{
 A list with comparison results
