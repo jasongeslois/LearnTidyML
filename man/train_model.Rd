@@ -11,7 +11,8 @@ train_model(
   task_type,
   recipe = NULL,
   cv_folds = 5,
-  tune_grid = 10
+  tune_grid = 10,
+  balance_strategy = "none"
 )
 }
 \arguments{
@@ -28,6 +29,11 @@ train_model(
 \item{cv_folds}{Number of cross-validation folds (default: 5)}
 
 \item{tune_grid}{Number of hyperparameter combinations to try (default: 10)}
+
+\item{balance_strategy}{Class rebalancing strategy for classification tasks:
+"none" (default), "oversample", or "undersample". Only used when \code{recipe}
+is NULL (i.e. when the default recipe is built). Applied inside the recipe
+so it never touches the assessment/test data.}
 }
 \value{
 A list containing model, metrics, predictions, and importance
