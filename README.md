@@ -4,8 +4,6 @@
 [![R-CMD-check](https://github.com/jasongeslois/LearnTidyML/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jasongeslois/LearnTidyML/actions/workflows/R-CMD-check.yaml)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![GitHub release](https://img.shields.io/github/v/release/jasongeslois/LearnTidyML)](https://github.com/jasongeslois/LearnTidyML/releases)
-[![Downloads](https://img.shields.io/github/downloads/jasongeslois/LearnTidyML/total)](https://github.com/jasongeslois/LearnTidyML/releases)
 [![GitHub stars](https://img.shields.io/github/stars/jasongeslois/LearnTidyML?style=flat)](https://github.com/jasongeslois/LearnTidyML/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/jasongeslois/LearnTidyML?style=flat)](https://github.com/jasongeslois/LearnTidyML/forks)
 [![Last commit](https://img.shields.io/github/last-commit/jasongeslois/LearnTidyML)](https://github.com/jasongeslois/LearnTidyML/commits/main)
