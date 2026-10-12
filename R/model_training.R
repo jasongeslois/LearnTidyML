@@ -603,20 +603,8 @@ extract_importance <- function(fitted_model, engine) {
    # Extract the fitted model from workflow
    model_fit <- workflows::extract_fit_parsnip(fitted_model)
 
-   # Use vip package if available
-   if (requireNamespace("vip", quietly = TRUE)) {
-     imp <- tryCatch({
-       vip::vi(model_fit)
-     }, error = function(e) NULL)
-
-     if (!is.null(imp) && nrow(imp) > 0) {
-       return(imp %>%
-                dplyr::arrange(dplyr::desc(Importance)) %>%
-                head(20))
-     }
-   }
-
-   # Fallback for specific engines
+   # Importance from each engine's own fit (the vip package was archived on
+   # CRAN in 2026); engines without a built-in measure return NULL
    if (engine == "ranger") {
      rf_fit <- model_fit$fit
      if (!is.null(rf_fit$variable.importance)) {
@@ -642,6 +630,53 @@ extract_importance <- function(fitted_model, engine) {
          Importance = abs(coef_df[, ncol(coef_df)])
        ) %>%
          dplyr::filter(Variable != "(Intercept)", Importance > 0) %>%
+         dplyr::arrange(dplyr::desc(Importance)) %>%
+         head(20)
+       return(imp)
+     }
+   }
+
+   if (engine == "xgboost" && requireNamespace("xgboost", quietly = TRUE)) {
+     xgb_imp <- tryCatch({
+       xgboost::xgb.importance(model = model_fit$fit)
+     }, error = function(e) NULL)
+
+     if (!is.null(xgb_imp) && nrow(xgb_imp) > 0) {
+       imp <- tibble::tibble(
+         Variable = xgb_imp$Feature,
+         Importance = as.numeric(xgb_imp$Gain)
+       ) %>%
+         dplyr::arrange(dplyr::desc(Importance)) %>%
+         head(20)
+       return(imp)
+     }
+   }
+
+   if (engine == "rpart") {
+     rpart_imp <- model_fit$fit$variable.importance
+     if (!is.null(rpart_imp) && length(rpart_imp) > 0) {
+       imp <- tibble::tibble(
+         Variable = names(rpart_imp),
+         Importance = as.numeric(rpart_imp)
+       ) %>%
+         dplyr::arrange(dplyr::desc(Importance)) %>%
+         head(20)
+       return(imp)
+     }
+   }
+
+   if (engine %in% c("lm", "glm")) {
+     # Absolute t (lm) or z (glm) statistic, as vip reported for these models
+     coefs <- tryCatch({
+       stats::coef(summary(model_fit$fit))
+     }, error = function(e) NULL)
+
+     if (!is.null(coefs) && ncol(coefs) >= 3) {
+       imp <- tibble::tibble(
+         Variable = rownames(coefs),
+         Importance = abs(as.numeric(coefs[, 3]))
+       ) %>%
+         dplyr::filter(Variable != "(Intercept)", !is.na(Importance)) %>%
          dplyr::arrange(dplyr::desc(Importance)) %>%
          head(20)
        return(imp)

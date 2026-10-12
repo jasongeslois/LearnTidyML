@@ -1,4 +1,4 @@
-# LearnTidyML <img src="man/figures/logo.png" align="right" height="138" alt="LearnTidyML logo" />
+# LearnTidyML <img src="man/figures/logo.png" align="right" height="139" alt="LearnTidyML logo" />
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/jasongeslois/LearnTidyML/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jasongeslois/LearnTidyML/actions/workflows/R-CMD-check.yaml)
@@ -207,8 +207,7 @@ install.packages(c(
   "kknn",        # K-Nearest Neighbors
   "naivebayes",  # Naive Bayes
   "rpart",       # Decision Trees
-  "rpart.plot",  # Tree visualization
-  "vip"          # Feature importance
+  "rpart.plot"   # Tree visualization
 ))
 ```
 
