@@ -1,6 +1,6 @@
 Package: LearnTidyML
 Title: Machine Learning Method Assistant
-Version: 0.3.1
+Version: 0.3.2
 Authors@R: person("Jason", "Geslois", email = "jason592470@duck.com", role = c("aut", "cre"))
 Description: Interactive Shiny app to help users select appropriate ML methods
     based on their data characteristics. Provides data profiling, method recommendations,
@@ -47,6 +47,5 @@ Suggests:
     naivebayes,
     rpart,
     rpart.plot,
-    vip,
     themis
 Config/testthat/edition: 3

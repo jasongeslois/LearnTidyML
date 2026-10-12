@@ -1,5 +1,15 @@
 # LearnTidyML News
 
+## LearnTidyML 0.3.2
+
+* Feature importance no longer uses the vip package, which was removed from
+  CRAN in July 2026 and stopped the automated checks from installing. It now
+  comes from each model's own fit: random forest, gradient boosting
+  (xgboost), decision tree, Ridge/Lasso and linear/logistic regression.
+  SVM, k-nearest neighbors and naive Bayes models show no importance table.
+* The README logo is trimmed so it displays at the same size as the other
+  packages' logos.
+
 ## LearnTidyML 0.3.1
 
 Statistical correctness fixes.
