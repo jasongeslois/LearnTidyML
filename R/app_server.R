@@ -1698,7 +1698,8 @@ app_server <- function(input, output, session) {
           tags$ul(
             tags$li("All data processing occurs locally in your R session."),
             tags$li("The app does not connect to any external services or transmit your data."),
-            tags$li("File imports are validated for size and basic structure to prevent abuse.")
+            tags$li("File imports are validated for size and basic structure to prevent abuse."),
+            tags$li("Only load .rds and .RData files from sources you trust.")
           ),
           hr(),
 
@@ -1713,7 +1714,7 @@ app_server <- function(input, output, session) {
           h4("Limitations"),
           tags$ul(
             tags$li("For educational and demonstration purposes only."),
-            tags$li("Handles datasets up to 1,000,000 rows and 1,000 columns."),
+            tags$li("Handles datasets up to 1,000,000 rows and 1,000 columns (up to 10,000,000 cells)."),
             tags$li("Advanced feature engineering and model tuning are simplified.")
           ),
           hr(),

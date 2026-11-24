@@ -15,7 +15,7 @@ An interactive R package with Shiny interface that helps users select appropriat
 
 ## Overview
 
-LearnTidyML helps guide your choice of machine learning methods. import your data, and LearnTidyML will:
+LearnTidyML helps guide your choice of machine learning methods. Import your data, and LearnTidyML will:
 
 1. **Profile your data** - Understand structure, types, and quality
 2. **Detect the ML task** - Classification, regression, clustering, etc.
@@ -75,7 +75,7 @@ launch_LearnTidyML(launch.browser = FALSE)
 
 ## Workflow Guide
 
-### Step 1: import Data
+### Step 1: Import Data
 
 **Supported formats:**
 - CSV, TSV, TXT (delimited text)
@@ -152,7 +152,7 @@ Interactive tools for:
 
 ### Step 7: Validate New Data
 
-import new data to:
+Import new data to:
 - Test trained model on unseen data
 - Validate generalization
 - Make predictions
@@ -305,6 +305,7 @@ Built-in validation ensures:
 4. **No deep learning**: Focus on traditional ML methods
 5. **English only**: UI and explanations in English
 6. **Simplified assumptions**: Some statistical checks are heuristic-based
+7. **R data files (`.rds`, `.RData`)**: Only load `.rds` and `.RData` files from sources you trust, since R's `readRDS()` and `load()` are not designed for untrusted files
 
 ## Security & Privacy
 
@@ -397,7 +398,7 @@ Gemini (Google) for debugging and verification. https://gemini.google.com/app
 ## Credits
 
 **Created By**: Jason Geslois 
-**Version**: 0.3.1 
+**Version**: 0.3.2 
 **License**: MIT 
 
 ## Contributing
