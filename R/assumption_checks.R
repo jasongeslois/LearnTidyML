@@ -37,7 +37,7 @@ check_regression_assumptions <- function(model_results) {
         test = "Shapiro-Wilk test for normality",
         p_value = shapiro_result$p.value,
         interpretation = if (shapiro_result$p.value < 0.05) {
-          has_warnings <<- TRUE
+          has_warnings <- TRUE
           paste0("**Warning**: Residuals appear non-normal (p = ",
                  round(shapiro_result$p.value, 4), " < 0.05)")
         } else {
@@ -72,7 +72,7 @@ check_regression_assumptions <- function(model_results) {
           test = "Variance ratio between high and low fitted values",
           variance_ratio = var_ratio,
           interpretation = if (var_ratio > 2 || var_ratio < 0.5) {
-            has_warnings <<- TRUE
+            has_warnings <- TRUE
             paste0("**Warning**: Variance appears non-constant (ratio = ",
                    round(var_ratio, 2), "). ",
                    "Check the residual plot below for funnel or cone shapes.")

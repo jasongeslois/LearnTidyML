@@ -4,6 +4,10 @@
 
 ### CRAN preparation
 
+* `check_regression_assumptions()` no longer assigns `has_warnings` in the
+  global environment (it used `<<-`), which CRAN does not allow. This also
+  fixes the summary saying no violations were found after it had flagged a
+  non-normal or non-constant-variance warning.
 * `LICENSE` now uses CRAN's two-line "MIT + file LICENSE" format; the full MIT
   text moved to `LICENSE.md`.
 * DESCRIPTION: added `URL` and `BugReports`, removed `LazyData` (the package
