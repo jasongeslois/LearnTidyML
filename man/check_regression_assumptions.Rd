@@ -15,3 +15,14 @@ Character string with assumption check results (markdown format)
 \description{
 Check Statistical Assumptions for Linear Models
 }
+\examples{
+# A minimal stand-in for the list returned by train_model()
+fit <- lm(Sepal.Length ~ Petal.Length, data = iris)
+results <- list(
+  method = "lm",
+  target = "Sepal.Length",
+  predictions = data.frame(Sepal.Length = iris$Sepal.Length,
+                           .pred = fitted(fit))
+)
+cat(check_regression_assumptions(results))
+}

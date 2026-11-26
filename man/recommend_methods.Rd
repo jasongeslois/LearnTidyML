@@ -17,3 +17,8 @@ A tibble of recommended methods with rationale
 \description{
 Recommend ML Methods
 }
+\examples{
+task <- detect_ml_task(iris, "Species")
+profile <- analyze_data(iris)
+recommend_methods(task, profile)
+}

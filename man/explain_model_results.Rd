@@ -15,3 +15,13 @@ A character string with plain English explanation
 \description{
 Generate Plain English Model Summary
 }
+\examples{
+\donttest{
+if (requireNamespace("rpart", quietly = TRUE)) {
+  results <- train_model(mtcars, target_col = "mpg", method_engine = "rpart",
+                         task_type = "regression", cv_folds = 3,
+                         tune_grid = 3)
+  cat(explain_model_results(results))
+}
+}
+}

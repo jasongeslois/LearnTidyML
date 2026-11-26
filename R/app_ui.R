@@ -1,7 +1,14 @@
 #' LearnTidyML UI
 #'
+#' @return A Shiny UI definition (an HTML tag list built with
+#'   \code{shinydashboard::dashboardPage()}), suitable for the \code{ui}
+#'   argument of \code{shiny::shinyApp()}.
 #' @import shiny
 #' @import shinydashboard
+#' @examples
+#' if (interactive()) {
+#'   shiny::shinyApp(ui = app_ui(), server = app_server)
+#' }
 #' @export
 app_ui <- function() {
  # Add resource path for logo

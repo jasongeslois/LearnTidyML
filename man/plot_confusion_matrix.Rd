@@ -17,3 +17,10 @@ A ggplot object
 \description{
 Create Confusion Matrix Visualization
 }
+\examples{
+preds <- data.frame(
+  outcome = factor(c("yes", "yes", "yes", "no", "no", "no", "yes", "no")),
+  .pred_class = factor(c("yes", "yes", "no", "no", "no", "yes", "yes", "no"))
+)
+plot_confusion_matrix(preds, "outcome")
+}

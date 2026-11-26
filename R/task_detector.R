@@ -3,6 +3,10 @@
 #' @param data A data frame
 #' @param target_col Name of the target variable
 #' @return A list with task type and recommendations
+#' @examples
+#' task <- detect_ml_task(iris, "Species")
+#' task$task_type
+#' task$task_subtype
 #' @export
 detect_ml_task <- function(data, target_col) {
 
@@ -155,6 +159,9 @@ detect_ml_task <- function(data, target_col) {
 #' 
 #' @param task_info Output from detect_ml_task()
 #' @return Logical indicating if regularization recommended
+#' @examples
+#' task <- detect_ml_task(iris, "Species")
+#' needs_regularization(task)
 #' @export
 needs_regularization <- function(task_info) {
   # High dimensional data benefits from regularization

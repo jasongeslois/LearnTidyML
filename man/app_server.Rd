@@ -13,6 +13,16 @@ app_server(input, output, session)
 
 \item{session}{Shiny session}
 }
+\value{
+No meaningful return value. The function is called by
+\code{shiny::shinyApp()} for each session, for its side effects of
+defining the app's reactive values, observers and outputs.
+}
 \description{
 LearnTidyML Server
+}
+\examples{
+if (interactive()) {
+  shiny::shinyApp(ui = app_ui(), server = app_server)
+}
 }

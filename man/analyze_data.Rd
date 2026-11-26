@@ -17,3 +17,8 @@ A list containing data profile information
 \description{
 Analyze Dataset Characteristics
 }
+\examples{
+profile <- analyze_data(iris)
+profile$structure
+profile$missing
+}

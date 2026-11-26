@@ -5,3 +5,8 @@
 ^\.gitignore$
 ^\.claude$
 ^_dev$
+^cran-comments\.md$
+^\.github$
+^\.gitattributes$
+^CODE_OF_CONDUCT\.md$
+^CONTRIBUTING\.md$

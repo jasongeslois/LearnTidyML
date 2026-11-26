@@ -407,7 +407,7 @@ Suggestions and bug reports welcome! This is an educational project focused on t
 
 ## License
 
-MIT License - See LICENSE file for details
+MIT License - See LICENSE.md file for details
 
 ---
 

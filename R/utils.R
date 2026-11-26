@@ -5,6 +5,8 @@
 #' @name %>%
 #' @rdname pipe
 #' @keywords internal
+#' @examples
+#' c(1, 4, 9) %>% sqrt()
 #' @export
 #' @importFrom magrittr %>%
 #' @usage lhs \%>\% rhs
@@ -274,6 +276,11 @@ safe_r_name <- function(name) {
 #' @param file_path Path to the file
 #' @param file_name Original filename (optional, for fallback)
 #' @return Data frame
+#' @examples
+#' path <- tempfile(fileext = ".csv")
+#' write.csv(mtcars[1:5, 1:3], path, row.names = FALSE)
+#' read_data_file(path)
+#' unlink(path)
 #' @export
 read_data_file <- function(file_path, file_name = NULL) {
   # SECURITY FIX (HIGH-1): Validate file path to prevent path traversal attacks

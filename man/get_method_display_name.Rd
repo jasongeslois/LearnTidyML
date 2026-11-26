@@ -15,3 +15,7 @@ Human-readable name
 \description{
 Get Method Display Name
 }
+\examples{
+get_method_display_name("ranger")
+get_method_display_name("kknn")
+}

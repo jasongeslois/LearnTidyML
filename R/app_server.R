@@ -3,7 +3,14 @@
 #' @param input Shiny input
 #' @param output Shiny output
 #' @param session Shiny session
+#' @return No meaningful return value. The function is called by
+#'   \code{shiny::shinyApp()} for each session, for its side effects of
+#'   defining the app's reactive values, observers and outputs.
 #' @import shiny
+#' @examples
+#' if (interactive()) {
+#'   shiny::shinyApp(ui = app_ui(), server = app_server)
+#' }
 #' @export
 app_server <- function(input, output, session) {
 
@@ -1813,6 +1820,14 @@ app_server <- function(input, output, session) {
 }
 
 #' Helper to generate tidymodels code
+#' @param method A one-row data frame (a row of \code{recommend_methods()}
+#'   output) with columns \code{method} and \code{tidymodels_engine}.
+#' @param task_info Output from \code{detect_ml_task()}.
+#' @param data The data frame being modelled; its column names are escaped
+#'   and used to build the model formula.
+#' @param profile Output from \code{analyze_data()}. Currently unused.
+#' @return A single character string of example R code (recipe, model
+#'   specification, workflow, fit and evaluation) for the selected method.
 #' @keywords internal
 generate_tidymodels_code <- function(method, task_info, data, profile) {
  engine <- method$tidymodels_engine

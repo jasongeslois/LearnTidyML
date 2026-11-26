@@ -18,3 +18,9 @@ Data frame
 Reads data from various file formats (CSV, Excel, R data, SAS, etc.)
 Includes security validation to prevent path traversal attacks.
 }
+\examples{
+path <- tempfile(fileext = ".csv")
+write.csv(mtcars[1:5, 1:3], path, row.names = FALSE)
+read_data_file(path)
+unlink(path)
+}

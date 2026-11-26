@@ -10,8 +10,21 @@ launch_LearnTidyML(launch.browser = TRUE, ...)
 \item{launch.browser}{Logical; if TRUE (default), opens the app in the
 system's default web browser. If FALSE, opens in RStudio viewer pane.}
 
-\item{...}{Additional arguments passed to shiny::runApp}
+\item{...}{Additional arguments passed to \code{shiny::shinyApp()}, such
+as \code{uiPattern} or \code{enableBookmarking}.}
+}
+\value{
+A Shiny app object (class \code{shiny.appobj}) created by
+\code{shiny::shinyApp()}. The app starts when this object is printed, which
+happens automatically when the function is called at the console. As a side
+effect, the function sets the \code{shiny.maxRequestSize},
+\code{shiny.sanitize.errors} and \code{shiny.session.timeout} options.
 }
 \description{
 Launch LearnTidyML Shiny App
+}
+\examples{
+if (interactive()) {
+  launch_LearnTidyML()
+}
 }

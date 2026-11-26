@@ -4,6 +4,10 @@
 #' @param target_col Target variable name
 #' @param issues Output from identify_issues()
 #' @return A tidymodels recipe object
+#' @examples
+#' issues <- identify_issues(mtcars, analyze_data(mtcars))
+#' rec <- create_prep_recipe(mtcars, "mpg", issues)
+#' rec
 #' @export
 create_prep_recipe <- function(data, target_col, issues) {
 
@@ -52,6 +56,10 @@ create_prep_recipe <- function(data, target_col, issues) {
 #' 
 #' @param issues Output from identify_issues()
 #' @return A character vector of preparation steps
+#' @examples
+#' df <- data.frame(x = c(1, NA, NA, NA, 5), y = c(2, 4, 6, 8, 10))
+#' issues <- identify_issues(df, analyze_data(df))
+#' generate_prep_steps(issues)
 #' @export
 generate_prep_steps <- function(issues) {
   

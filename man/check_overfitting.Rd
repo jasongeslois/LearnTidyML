@@ -15,3 +15,13 @@ Character string with overfitting check (markdown format)
 \description{
 Check for Overfitting
 }
+\examples{
+# A minimal stand-in for the list returned by train_model()
+results <- list(
+  task_type = "regression",
+  cv_metrics = data.frame(.metric = c("rmse", "rsq"), mean = c(3.1, 0.72)),
+  test_metrics = data.frame(.metric = c("rmse", "rsq"),
+                            .estimate = c(3.4, 0.70))
+)
+cat(check_overfitting(results))
+}

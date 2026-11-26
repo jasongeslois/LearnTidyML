@@ -19,3 +19,8 @@ A tidymodels recipe object
 \description{
 Generate Data Preparation Recipe
 }
+\examples{
+issues <- identify_issues(mtcars, analyze_data(mtcars))
+rec <- create_prep_recipe(mtcars, "mpg", issues)
+rec
+}

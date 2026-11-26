@@ -17,4 +17,7 @@ The result of calling `rhs(lhs)`.
 \description{
 See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
 }
+\examples{
+c(1, 4, 9) \%>\% sqrt()
+}
 \keyword{internal}

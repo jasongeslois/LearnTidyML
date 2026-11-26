@@ -15,3 +15,14 @@ A list with formatted metrics for display
 \description{
 Create Metrics Summary Card Data
 }
+\examples{
+# A minimal stand-in for the list returned by train_model()
+results <- list(
+  task_type = "classification",
+  test_metrics = data.frame(
+    .metric = c("accuracy", "precision", "recall", "roc_auc"),
+    .estimate = c(0.86, 0.84, 0.88, 0.91)
+  )
+)
+str(create_metrics_summary(results))
+}
