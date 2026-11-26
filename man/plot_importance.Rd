@@ -17,3 +17,10 @@ A ggplot object
 \description{
 Create Feature Importance Plot
 }
+\examples{
+imp <- data.frame(
+  Variable = c("wt", "hp", "disp", "cyl"),
+  Importance = c(0.45, 0.30, 0.15, 0.10)
+)
+plot_importance(imp)
+}

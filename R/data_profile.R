@@ -3,6 +3,10 @@
 #' @param data A data frame to analyze
 #' @param max_unique_check Maximum unique values to check for categorical columns (default: 10000)
 #' @return A list containing data profile information
+#' @examples
+#' profile <- analyze_data(iris)
+#' profile$structure
+#' profile$missing
 #' @export
 analyze_data <- function(data, max_unique_check = 10000) {
 
@@ -132,6 +136,14 @@ analyze_data <- function(data, max_unique_check = 10000) {
 #' @param data A data frame
 #' @param profile_data Output from analyze_data()
 #' @return A tibble of identified issues
+#' @examples
+#' df <- data.frame(
+#'   x = c(1, NA, NA, NA, 5),
+#'   y = c(10, 20, 30, 40, 50),
+#'   group = c("a", "b", "a", "b", "a")
+#' )
+#' profile <- analyze_data(df)
+#' identify_issues(df, profile)
 #' @export
 identify_issues <- function(data, profile_data) {
   

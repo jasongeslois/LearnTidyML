@@ -15,3 +15,14 @@ Character string with comparison explanation
 \description{
 Generate Model Comparison Summary
 }
+\examples{
+\donttest{
+if (requireNamespace("rpart", quietly = TRUE)) {
+  comparison <- compare_models(mtcars, target_col = "mpg",
+                               task_type = "regression",
+                               engines = c("lm", "rpart"),
+                               cv_folds = 3, tune_grid = 3)
+  cat(explain_model_comparison(comparison))
+}
+}
+}

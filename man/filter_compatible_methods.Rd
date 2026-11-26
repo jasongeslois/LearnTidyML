@@ -17,3 +17,10 @@ Filtered tibble of compatible methods
 \description{
 Removes methods that are not compatible with the task type
 }
+\examples{
+methods <- data.frame(
+  method = c("Random Forest", "Naive Bayes"),
+  tidymodels_engine = c("ranger", "naivebayes")
+)
+filter_compatible_methods(methods, "regression")
+}

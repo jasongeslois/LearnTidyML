@@ -41,3 +41,12 @@ A list containing model, metrics, predictions, and importance
 \description{
 Train a Model with Cross-Validation
 }
+\examples{
+\donttest{
+# The "lm" engine (ordinary least squares) needs no extra modelling packages
+results <- train_model(mtcars, target_col = "mpg", method_engine = "lm",
+                       task_type = "regression", cv_folds = 3)
+results$test_metrics
+results$importance
+}
+}

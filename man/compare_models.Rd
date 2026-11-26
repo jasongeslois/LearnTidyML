@@ -43,3 +43,15 @@ A list with comparison results
 \description{
 Compare Multiple Models
 }
+\examples{
+\donttest{
+if (requireNamespace("rpart", quietly = TRUE)) {
+  comparison <- compare_models(mtcars, target_col = "mpg",
+                               task_type = "regression",
+                               engines = c("lm", "rpart"),
+                               cv_folds = 3, tune_grid = 3)
+  print(comparison$comparison)
+  comparison$best_model
+}
+}
+}

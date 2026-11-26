@@ -2,6 +2,16 @@
 #'
 #' @param model_results Output from train_model()
 #' @return Character string with assumption check results (markdown format)
+#' @examples
+#' # A minimal stand-in for the list returned by train_model()
+#' fit <- lm(Sepal.Length ~ Petal.Length, data = iris)
+#' results <- list(
+#'   method = "lm",
+#'   target = "Sepal.Length",
+#'   predictions = data.frame(Sepal.Length = iris$Sepal.Length,
+#'                            .pred = fitted(fit))
+#' )
+#' cat(check_regression_assumptions(results))
 #' @export
 check_regression_assumptions <- function(model_results) {
 
@@ -144,6 +154,15 @@ check_regression_assumptions <- function(model_results) {
 #'
 #' @param model_results Output from train_model()
 #' @return Character string with overfitting check (markdown format)
+#' @examples
+#' # A minimal stand-in for the list returned by train_model()
+#' results <- list(
+#'   task_type = "regression",
+#'   cv_metrics = data.frame(.metric = c("rmse", "rsq"), mean = c(3.1, 0.72)),
+#'   test_metrics = data.frame(.metric = c("rmse", "rsq"),
+#'                             .estimate = c(3.4, 0.70))
+#' )
+#' cat(check_overfitting(results))
 #' @export
 check_overfitting <- function(model_results) {
 
@@ -255,6 +274,10 @@ check_overfitting <- function(model_results) {
 #' @param target_col Target column name
 #' @param task_type "regression" or "classification"
 #' @return List with baseline metrics
+#' @examples
+#' calculate_baseline(data.frame(mpg = mtcars$mpg), "mpg", "regression")
+#' calculate_baseline(data.frame(Species = iris$Species), "Species",
+#'                    "classification")
 #' @export
 calculate_baseline <- function(predictions, target_col, task_type) {
 

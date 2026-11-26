@@ -11,6 +11,15 @@ NULL
 #'
 #' @param model_results Output from train_model()
 #' @return A character string with plain English explanation
+#' @examples
+#' \donttest{
+#' if (requireNamespace("rpart", quietly = TRUE)) {
+#'   results <- train_model(mtcars, target_col = "mpg", method_engine = "rpart",
+#'                          task_type = "regression", cv_folds = 3,
+#'                          tune_grid = 3)
+#'   cat(explain_model_results(results))
+#' }
+#' }
 #' @export
 explain_model_results <- function(model_results) {
 
@@ -707,6 +716,12 @@ generate_recommendations <- function(model_results) {
 #' @param importance Importance tibble
 #' @param top_n Number of features to show (default: 15)
 #' @return A ggplot object
+#' @examples
+#' imp <- data.frame(
+#'   Variable = c("wt", "hp", "disp", "cyl"),
+#'   Importance = c(0.45, 0.30, 0.15, 0.10)
+#' )
+#' plot_importance(imp)
 #' @export
 plot_importance <- function(importance, top_n = 15) {
 
@@ -742,6 +757,10 @@ plot_importance <- function(importance, top_n = 15) {
 #' @param predictions Predictions tibble with .pred and actual columns
 #' @param target_col Target column name
 #' @return A ggplot object
+#' @examples
+#' fit <- lm(mpg ~ wt + hp, data = mtcars)
+#' preds <- data.frame(mpg = mtcars$mpg, .pred = fitted(fit))
+#' plot_predictions_regression(preds, "mpg")
 #' @export
 plot_predictions_regression <- function(predictions, target_col) {
 
@@ -768,6 +787,10 @@ plot_predictions_regression <- function(predictions, target_col) {
 #' @param predictions Predictions tibble
 #' @param target_col Target column name
 #' @return A ggplot object
+#' @examples
+#' fit <- lm(mpg ~ wt + hp, data = mtcars)
+#' preds <- data.frame(mpg = mtcars$mpg, .pred = fitted(fit))
+#' plot_residuals(preds, "mpg")
 #' @export
 plot_residuals <- function(predictions, target_col) {
 
@@ -800,6 +823,12 @@ plot_residuals <- function(predictions, target_col) {
 #' @param predictions Predictions tibble with .pred_class and actual
 #' @param target_col Target column name
 #' @return A ggplot object
+#' @examples
+#' preds <- data.frame(
+#'   outcome = factor(c("yes", "yes", "yes", "no", "no", "no", "yes", "no")),
+#'   .pred_class = factor(c("yes", "yes", "no", "no", "no", "yes", "yes", "no"))
+#' )
+#' plot_confusion_matrix(preds, "outcome")
 #' @export
 plot_confusion_matrix <- function(predictions, target_col) {
 
@@ -842,6 +871,16 @@ plot_confusion_matrix <- function(predictions, target_col) {
 #'
 #' @param model_results Output from train_model()
 #' @return A list with formatted metrics for display
+#' @examples
+#' # A minimal stand-in for the list returned by train_model()
+#' results <- list(
+#'   task_type = "classification",
+#'   test_metrics = data.frame(
+#'     .metric = c("accuracy", "precision", "recall", "roc_auc"),
+#'     .estimate = c(0.86, 0.84, 0.88, 0.91)
+#'   )
+#' )
+#' str(create_metrics_summary(results))
 #' @export
 create_metrics_summary <- function(model_results) {
 
@@ -959,6 +998,16 @@ get_metric_color <- function(value, metric_type) {
 #'
 #' @param comparison_results Output from compare_models()
 #' @return Character string with comparison explanation
+#' @examples
+#' \donttest{
+#' if (requireNamespace("rpart", quietly = TRUE)) {
+#'   comparison <- compare_models(mtcars, target_col = "mpg",
+#'                                task_type = "regression",
+#'                                engines = c("lm", "rpart"),
+#'                                cv_folds = 3, tune_grid = 3)
+#'   cat(explain_model_comparison(comparison))
+#' }
+#' }
 #' @export
 explain_model_comparison <- function(comparison_results) {
 

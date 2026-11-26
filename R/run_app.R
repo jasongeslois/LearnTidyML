@@ -2,7 +2,17 @@
 #'
 #' @param launch.browser Logical; if TRUE (default), opens the app in the
 #'   system's default web browser. If FALSE, opens in RStudio viewer pane.
-#' @param ... Additional arguments passed to shiny::runApp
+#' @param ... Additional arguments passed to \code{shiny::shinyApp()}, such
+#'   as \code{uiPattern} or \code{enableBookmarking}.
+#' @return A Shiny app object (class \code{shiny.appobj}) created by
+#'   \code{shiny::shinyApp()}. The app starts when this object is printed, which
+#'   happens automatically when the function is called at the console. As a side
+#'   effect, the function sets the \code{shiny.maxRequestSize},
+#'   \code{shiny.sanitize.errors} and \code{shiny.session.timeout} options.
+#' @examples
+#' if (interactive()) {
+#'   launch_LearnTidyML()
+#' }
 #' @export
 launch_LearnTidyML <- function(launch.browser = TRUE, ...) {
 

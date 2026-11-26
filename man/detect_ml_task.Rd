@@ -17,3 +17,8 @@ A list with task type and recommendations
 \description{
 Detect Machine Learning Task Type
 }
+\examples{
+task <- detect_ml_task(iris, "Species")
+task$task_type
+task$task_subtype
+}

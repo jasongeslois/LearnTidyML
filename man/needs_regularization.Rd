@@ -15,3 +15,7 @@ Logical indicating if regularization recommended
 \description{
 Detect if Regularization is Needed
 }
+\examples{
+task <- detect_ml_task(iris, "Species")
+needs_regularization(task)
+}

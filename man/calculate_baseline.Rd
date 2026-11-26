@@ -19,3 +19,8 @@ List with baseline metrics
 \description{
 Calculate Baseline Performance
 }
+\examples{
+calculate_baseline(data.frame(mpg = mtcars$mpg), "mpg", "regression")
+calculate_baseline(data.frame(Species = iris$Species), "Species",
+                   "classification")
+}

@@ -3,7 +3,6 @@
 #' Functions to train ML models and return results in a standardized format
 #'
 #' @name model_training
-#' @import tidymodels
 #' @import dplyr
 #' @import parsnip
 #' @import workflows
@@ -26,6 +25,14 @@ NULL
 #'   is NULL (i.e. when the default recipe is built). Applied inside the recipe
 #'   so it never touches the assessment/test data.
 #' @return A list containing model, metrics, predictions, and importance
+#' @examples
+#' \donttest{
+#' # The "lm" engine (ordinary least squares) needs no extra modelling packages
+#' results <- train_model(mtcars, target_col = "mpg", method_engine = "lm",
+#'                        task_type = "regression", cv_folds = 3)
+#' results$test_metrics
+#' results$importance
+#' }
 #' @export
 train_model <- function(data, target_col, method_engine, task_type,
                         recipe = NULL, cv_folds = 5, tune_grid = 10,
@@ -706,6 +713,17 @@ extract_importance <- function(fitted_model, engine) {
 #'   recipe for classification tasks: "none" (default), "oversample", or
 #'   "undersample".
 #' @return A list with comparison results
+#' @examples
+#' \donttest{
+#' if (requireNamespace("rpart", quietly = TRUE)) {
+#'   comparison <- compare_models(mtcars, target_col = "mpg",
+#'                                task_type = "regression",
+#'                                engines = c("lm", "rpart"),
+#'                                cv_folds = 3, tune_grid = 3)
+#'   print(comparison$comparison)
+#'   comparison$best_model
+#' }
+#' }
 #' @export
 compare_models <- function(data, target_col, task_type,
                           engines = c("glmnet", "ranger", "xgboost"),
@@ -811,6 +829,9 @@ compare_models <- function(data, target_col, task_type,
 #' Get Method Display Name
 #' @param engine Engine name
 #' @return Human-readable name
+#' @examples
+#' get_method_display_name("ranger")
+#' get_method_display_name("kknn")
 #' @export
 get_method_display_name <- function(engine) {
  switch(

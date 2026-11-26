@@ -17,3 +17,12 @@ A tibble of identified issues
 \description{
 Identify Data Quality Issues
 }
+\examples{
+df <- data.frame(
+  x = c(1, NA, NA, NA, 5),
+  y = c(10, 20, 30, 40, 50),
+  group = c("a", "b", "a", "b", "a")
+)
+profile <- analyze_data(df)
+identify_issues(df, profile)
+}

@@ -17,3 +17,8 @@ A ggplot object
 \description{
 Create Predictions vs Actual Plot (Regression)
 }
+\examples{
+fit <- lm(mpg ~ wt + hp, data = mtcars)
+preds <- data.frame(mpg = mtcars$mpg, .pred = fitted(fit))
+plot_predictions_regression(preds, "mpg")
+}

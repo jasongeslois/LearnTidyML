@@ -3,6 +3,10 @@
 #' @param task_info Output from detect_ml_task()
 #' @param data_profile Output from analyze_data()
 #' @return A tibble of recommended methods with rationale
+#' @examples
+#' task <- detect_ml_task(iris, "Species")
+#' profile <- analyze_data(iris)
+#' recommend_methods(task, profile)
 #' @export
 recommend_methods <- function(task_info, data_profile) {
   
@@ -178,6 +182,9 @@ recommend_methods <- function(task_info, data_profile) {
 #' @param engine Tidymodels engine name
 #' @param task_type "regression" or "classification"
 #' @return Logical indicating compatibility
+#' @examples
+#' is_model_compatible("ranger", "regression")
+#' is_model_compatible("naivebayes", "regression")
 #' @export
 is_model_compatible <- function(engine, task_type) {
 
@@ -215,6 +222,12 @@ is_model_compatible <- function(engine, task_type) {
 #' @param methods Tibble of recommended methods
 #' @param task_type "regression" or "classification"
 #' @return Filtered tibble of compatible methods
+#' @examples
+#' methods <- data.frame(
+#'   method = c("Random Forest", "Naive Bayes"),
+#'   tidymodels_engine = c("ranger", "naivebayes")
+#' )
+#' filter_compatible_methods(methods, "regression")
 #' @export
 filter_compatible_methods <- function(methods, task_type) {
   methods %>%

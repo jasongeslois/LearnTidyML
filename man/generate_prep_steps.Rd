@@ -15,3 +15,8 @@ A character vector of preparation steps
 \description{
 Generate Human-Readable Prep Steps
 }
+\examples{
+df <- data.frame(x = c(1, NA, NA, NA, 5), y = c(2, 4, 6, 8, 10))
+issues <- identify_issues(df, analyze_data(df))
+generate_prep_steps(issues)
+}

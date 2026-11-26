@@ -1,5 +1,24 @@
 # LearnTidyML News
 
+## LearnTidyML (development version)
+
+### CRAN preparation
+
+* `LICENSE` now uses CRAN's two-line "MIT + file LICENSE" format; the full MIT
+  text moved to `LICENSE.md`.
+* DESCRIPTION: added `URL` and `BugReports`, removed `LazyData` (the package
+  has no `data/` directory), quoted software names and spelled out "machine
+  learning" in the Description.
+* The `tidymodels` meta-package moved from Imports to Suggests. The package
+  only uses functions from parsnip, recipes, workflows, tune, yardstick,
+  rsample and dials, which remain in Imports. `library(tidymodels)` still
+  appears in the example code the app generates for users.
+* Every exported function now has a runnable example, and the documentation
+  for `app_server()`, `app_ui()`, `launch_LearnTidyML()` and
+  `generate_tidymodels_code()` now describes what they return.
+* Added `cran-comments.md`, and excluded `.github/`, `.gitattributes`,
+  `CODE_OF_CONDUCT.md` and `CONTRIBUTING.md` from the built package.
+
 ## LearnTidyML 0.3.2
 
 * Feature importance no longer uses the vip package, which was removed from

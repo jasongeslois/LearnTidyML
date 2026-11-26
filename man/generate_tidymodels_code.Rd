@@ -6,6 +6,21 @@
 \usage{
 generate_tidymodels_code(method, task_info, data, profile)
 }
+\arguments{
+\item{method}{A one-row data frame (a row of \code{recommend_methods()}
+output) with columns \code{method} and \code{tidymodels_engine}.}
+
+\item{task_info}{Output from \code{detect_ml_task()}.}
+
+\item{data}{The data frame being modelled; its column names are escaped
+and used to build the model formula.}
+
+\item{profile}{Output from \code{analyze_data()}. Currently unused.}
+}
+\value{
+A single character string of example R code (recipe, model
+specification, workflow, fit and evaluation) for the selected method.
+}
 \description{
 Helper to generate tidymodels code
 }

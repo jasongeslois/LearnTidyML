@@ -17,3 +17,7 @@ Logical indicating compatibility
 \description{
 Returns TRUE if the model engine is compatible with the task type
 }
+\examples{
+is_model_compatible("ranger", "regression")
+is_model_compatible("naivebayes", "regression")
+}
