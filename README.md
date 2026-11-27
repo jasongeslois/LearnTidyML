@@ -7,6 +7,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/jasongeslois/LearnTidyML?style=flat)](https://github.com/jasongeslois/LearnTidyML/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/jasongeslois/LearnTidyML?style=flat)](https://github.com/jasongeslois/LearnTidyML/forks)
 [![Last commit](https://img.shields.io/github/last-commit/jasongeslois/LearnTidyML)](https://github.com/jasongeslois/LearnTidyML/commits/main)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/LearnTidyML)](https://cran.r-project.org/package=LearnTidyML)
 <!-- badges: end -->
 
 **Machine Learning Method Assistant**
